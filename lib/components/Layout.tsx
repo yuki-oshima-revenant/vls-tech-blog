@@ -9,8 +9,10 @@ const Layout: React.FunctionComponent = ({ children }) => {
                     <div className="flex-grow" />
                 </div>
             </header>
-            <div className="h-screen pt-4">
-                {children}
+            <div className="min-h-screen pt-4">
+                <div className="max-w-7xl mx-auto px-4">
+                    {children}
+                </div>
             </div>
             <footer className="h-16 flex ">
                 <div className="h-auto m-auto">

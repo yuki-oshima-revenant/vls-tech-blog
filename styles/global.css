@@ -6,34 +6,37 @@
 @tailwind utilities;
 
 h1 {
-    @apply text-4xl mb-4 font-bold;
+    @apply text-4xl mb-8 font-bold;
 }
 h2 {
-    @apply text-3xl mb-3 font-bold;
+    @apply text-3xl mb-6 font-bold;
 }
 h3 {
-    @apply text-2xl mb-2 font-bold;
+    @apply text-2xl mb-4 font-bold;
 }
 h4 {
-    @apply text-xl mb-2 font-bold;
+    @apply text-xl mb-4 font-bold;
 }
 h5 {
-    @apply text-lg mb-2 font-bold;
+    @apply text-lg mb-4 font-bold;
 }
 p {
-    @apply mb-2;
+    @apply mb-4 p-2;
 }
 pre{
-    @apply mb-2;
+    @apply mb-4 p-2;
+}
+code{
+    @apply px-2 bg-gray-100;
 }
 blockquote{
-    @apply bg-gray-100 italic mb-2;
+    @apply bg-gray-100 italic mb-4 p-2;
 }
 ul{
-    @apply list-disc list-inside mb-2;
+    @apply list-disc list-inside mb-4 p-2;
 }
 ol{
-    @apply list-decimal list-inside mb-2;
+    @apply list-decimal list-inside mb-4 p-2;
 }
 a{
     @apply text-blue-700 cursor-pointer;

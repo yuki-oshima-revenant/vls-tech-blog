@@ -9,7 +9,7 @@ export const getFeedArticles = async (members: MemberInfo[]) => {
         for (const [i, rssFeedUrl] of member.feedUrls.entries()) {
             const parser = new Parser({});
             const feed = await parser.parseURL(rssFeedUrl);
-            feed.items.forEach((item) => {
+            feed.items.forEach((item) => {                
                 articles.push(
                     {
                         domain: feed.link?.replace(/https?:\/\//, '') || null,
