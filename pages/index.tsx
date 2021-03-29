@@ -33,7 +33,7 @@ const Index = ({ articles, members }: InferGetStaticPropsType<typeof getStaticPr
                         key={`member_${i}`}
                     >
                         <div className="text-center">
-                            <img className="w-16 h-16 mx-auto rounded-full" alt="member" src={member.avaterImage || ''} />
+                            <img className="w-16 h-16 mx-auto mb-2 rounded-full" alt="member" src={member.avaterImage || ''} />
                         </div>
                         <div className="font-semibold">{member.name}</div>
                         <div className="text-xs">{member.job}</div>

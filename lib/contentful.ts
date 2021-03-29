@@ -117,7 +117,11 @@ const convertAuthor = (authors: Authors) => {
 
 export const getAuthors = async () => {
     const authors = await getEntries<Authors>('author');
-    return convertAuthor(authors);
+    return convertAuthor(authors).sort((a, b) => {
+        if (!a.name || !b.name) return 0;
+        if (a.name > b.name) return 1;
+        return -1
+    });
 }
 
 export const getOneAuthor = async (slug: string) => {

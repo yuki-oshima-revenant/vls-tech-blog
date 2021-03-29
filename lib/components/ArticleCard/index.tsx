@@ -1,6 +1,7 @@
 import { ArticleInfo } from "@/lib/types";
 import { useRouter } from "next/router";
 import dayjs from 'dayjs';
+import styles from './index.module.css';
 
 const ArticleCard: React.FunctionComponent<{
     article: ArticleInfo,
@@ -29,7 +30,7 @@ const ArticleCard: React.FunctionComponent<{
                         <div>{article.author.name}</div>
                     </div>
                 )}
-                <div className="text-lg font-bold mb-2 h-20">{article.title}</div>
+                <div className={`text-lg font-bold mb-2 h-20 ${styles.title}`}>{article.title}</div>
                 <div className="mb-2">{article.pubishDate && dayjs(article.pubishDate).format('YYYY.MM.DD')}</div>
                 {/* <div className="text-gray-700 text-sm mb-2">{article.contentSnippet}</div> */}
                 <div className="flex">

@@ -28,7 +28,7 @@ const Member = ({ member, articles }: InferGetStaticPropsType<typeof getStaticPr
             <div className="flex justify-center my-8">
                 <img className="h-32 mr-12 rounded-full" alt="avater" src={member?.avaterImage || ''} />
                 <div className="flex">
-                    <div className="mb-4 mr-12 w-80">
+                    <div className="mb-4 mr-12 w-96">
                         <div className="text-3xl font-bold mb-2">{member?.name}</div>
                         <div className="text-lg mb-2">{member?.job}</div>
                         <div className="text-lg">{member?.profile}</div>
