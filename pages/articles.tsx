@@ -44,8 +44,10 @@ const Articles = ({ articles }: InferGetStaticPropsType<typeof getStaticProps>) 
 
 export const getStaticProps: GetStaticProps<{ articles: ArticleInfo[] | null }> = async () => {
     const authors = await getAuthors();
-    const feedArticles = await getFeedArticles(authors);
-    const articles = await getArticles({ limit: '1000' });
+    const [feedArticles, articles] = await Promise.all([
+        getFeedArticles(authors),
+        getArticles({ limit: '1000' })
+    ]);
     return {
         props: {
             articles: getArticleList([...feedArticles, ...articles])

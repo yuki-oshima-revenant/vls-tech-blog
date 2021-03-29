@@ -46,8 +46,10 @@ const Index = ({ articles, members }: InferGetStaticPropsType<typeof getStaticPr
 
 export const getStaticProps: GetStaticProps<{ articles: ArticleInfo[], members: MemberInfo[] }> = async () => {
     const authors = await getAuthors();
-    const feedArticles = await getFeedArticles(authors);
-    const articles = await getArticles();
+    const [feedArticles, articles] = await Promise.all([
+        getFeedArticles(authors),
+        getArticles(),
+    ])
     return {
         props: {
             articles: getArticleList([...feedArticles, ...articles]).slice(0, 8),
