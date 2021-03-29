@@ -23,7 +23,7 @@ const Index = ({ articles, members }: InferGetStaticPropsType<typeof getStaticPr
                 <Link href={'/articles'}>{'More Articles ->'}</Link>
             </div>
             <h2 className="text-center text-3xl font-bold my-8 border-0">Members</h2>
-            <div className="container grid grid-cols-8 gap-6">
+            <div className="container grid grid-cols-6 gap-6">
                 {members.map((member, i) => (
                     <div
                         className="mb-2 text-center cursor-pointer"

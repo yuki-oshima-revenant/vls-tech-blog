@@ -171,3 +171,28 @@ export const getArticlesTotalCount = async () => {
     const article = await getEntries<Articles>('post');
     return article.total;
 };
+
+
+export const getPreviewEntry = async <T>(contentType: string, extraParams?: { [k: string]: string }) => {
+    const params = new URLSearchParams();
+    params.append('access_token', process.env.CONTENT_PREVIEW_API_TOKEN || '');
+    params.append('content_type', contentType);
+    if (extraParams) {
+        Object.keys(extraParams).forEach((key) => {
+            if (key !== 'limit') {
+                params.append(key, extraParams[key]);
+            }
+        });
+    }
+    params.append('limit', extraParams?.limit || '100');
+    const res = await axios.get<T>(
+        `https://preview.contentful.com/spaces/${process.env.SPACE_ID}/environments/master/entries?${params.toString()}`
+    );
+    return res.data;
+};
+
+export const getPreviewArticle = async (slug: string) => {
+    const article = await getPreviewEntry<Articles>('post', { 'fields.slug': slug });
+    const convertedArticles = convertArticles(article);
+    return convertedArticles.length > 0 ? convertedArticles[0] : null;
+};

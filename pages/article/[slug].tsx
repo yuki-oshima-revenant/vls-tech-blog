@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getArticles, getOneArticle } from '@/lib/contentful';
+import { getArticles, getOneArticle, getPreviewArticle } from '@/lib/contentful';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { ArticleInfo } from '@/lib/types';
 import remark from 'remark';
@@ -83,7 +83,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     return { paths, fallback: 'blocking' }
 };
 
-export const getStaticProps: GetStaticProps<{ article: ArticleInfo | null }> = async ({ params }) => {
+export const getStaticProps: GetStaticProps<{ article: ArticleInfo | null }> = async ({ params, preview }) => {
     const notFoundResponse = {
         props: {
             article: null
@@ -91,12 +91,18 @@ export const getStaticProps: GetStaticProps<{ article: ArticleInfo | null }> = a
         redirect: {
             destination: '/404'
         }
-
     }
+
     if (!params?.slug || Array.isArray(params.slug)) {
         return notFoundResponse;
     }
-    const article = await getOneArticle(params.slug);
+    
+    let article: ArticleInfo | null;
+    if (preview) {
+        article = await getPreviewArticle(params.slug);
+    } else {
+        article = await getOneArticle(params.slug);
+    }
     if (article) {
         const processedBody = await remark().use(gfm).use(html).use(highlight).process(article.body || '');
 
