@@ -16,7 +16,7 @@ const Index = ({ articles, members }: InferGetStaticPropsType<typeof getStaticPr
             <h2 className="text-center text-3xl font-bold my-8 border-0">New Articles</h2>
             <div className="container grid grid-cols-4 gap-6">
                 {articles.map((article, i) => (
-                    <ArticleCard article={article} key={`${i}`} />
+                    <ArticleCard article={article} key={`article_${i}`} />
                 ))}
             </div>
             <div className="text-right text-lg font-medium mt-2">
@@ -24,12 +24,13 @@ const Index = ({ articles, members }: InferGetStaticPropsType<typeof getStaticPr
             </div>
             <h2 className="text-center text-3xl font-bold my-8 border-0">Members</h2>
             <div className="container grid grid-cols-8 gap-6">
-                {members.map((member) => (
+                {members.map((member, i) => (
                     <div
                         className="mb-2 text-center cursor-pointer"
                         onClick={() => {
                             router.push(`/member/${member.slug}`)
                         }}
+                        key={`member_${i}`}
                     >
                         <div className="text-center">
                             <img className="w-16 h-16 mx-auto rounded-full" alt="member" src={member.avaterImage || ''} />
@@ -51,7 +52,8 @@ export const getStaticProps: GetStaticProps<{ articles: ArticleInfo[], members: 
         props: {
             articles: getArticleList([...feedArticles, ...articles]).slice(0, 8),
             members: authors
-        }
+        },
+        revalidate: 60
     }
 };
 export default Index;

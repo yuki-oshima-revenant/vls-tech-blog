@@ -8,6 +8,8 @@ import Layout from '@/lib/components/Layout';
 import dayjs from 'dayjs';
 const highlight = require('remark-highlight.js');
 const gfm = require('remark-gfm');
+import { Link } from 'react-scroll';
+import styles from './index.module.css';
 
 const Article = ({ article }: InferGetStaticPropsType<typeof getStaticProps>) => {
     const [headings, setHeadings] = useState<string[]>();
@@ -16,13 +18,14 @@ const Article = ({ article }: InferGetStaticPropsType<typeof getStaticProps>) =>
         const h2 = document.querySelectorAll('h2');
         if (h2) {
             h2.forEach((el, i) => {
-                el.setAttribute('style', 'border-bottom:1px solid #ddd; padding-bottom: 0.25em');
-                el.setAttribute('id', `${i + 1}`);
+                el.setAttribute('class', styles.headings);
+                el.setAttribute('id', `heading_${i + 1}`);
                 tmpHeadings.push(el.innerText);
             });
         }
         setHeadings(tmpHeadings);
-    }, [])
+    }, []);
+
     return (
         <Layout>
             <div className="grid grid-cols-4 gap-4">
@@ -49,9 +52,16 @@ const Article = ({ article }: InferGetStaticPropsType<typeof getStaticProps>) =>
                         <div className="bg-white p-6 rounded-lg">
                             <div className="mb-4 font-bold text-lg">Table of Contents</div>
                             {headings?.map((heading, i) => (
-                                <div key={`heading_${i}`} className="mb-2">
-                                    <a className="text-gray-500">{heading}</a>
-                                </div>
+                                <Link key={`heading_${i}`}
+                                    className="mb-2 block text-gray-500"
+                                    to={`heading_${i + 1}`}
+                                    smooth
+                                    spy
+                                    offset={-16}
+                                    duration={200}
+                                >
+                                    {heading}
+                                </Link>
                             ))}
                         </div>
                     </div>
@@ -70,16 +80,21 @@ export const getStaticPaths: GetStaticPaths = async () => {
             slug: article.slug || undefined,
         }
     }));
-    return { paths, fallback: false }
+    return { paths, fallback: 'blocking' }
 };
 
 export const getStaticProps: GetStaticProps<{ article: ArticleInfo | null }> = async ({ params }) => {
-    if (!params?.slug || Array.isArray(params.slug)) {
-        return {
-            props: {
-                article: null
-            }
+    const notFoundResponse = {
+        props: {
+            article: null
+        },
+        redirect: {
+            destination: '/404'
         }
+
+    }
+    if (!params?.slug || Array.isArray(params.slug)) {
+        return notFoundResponse;
     }
     const article = await getOneArticle(params.slug);
     if (article) {
@@ -91,14 +106,11 @@ export const getStaticProps: GetStaticProps<{ article: ArticleInfo | null }> = a
                     ...article,
                     body: processedBody.toString()
                 }
-            }
+            },
+            revalidate: 60,
         }
     }
-    return {
-        props: {
-            article: null
-        }
-    }
+    return notFoundResponse;
 };
 
 

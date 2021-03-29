@@ -49,7 +49,8 @@ export const getStaticProps: GetStaticProps<{ articles: ArticleInfo[] | null }> 
     return {
         props: {
             articles: getArticleList([...feedArticles, ...articles])
-        }
+        },
+        revalidate: 60
     }
 };
 

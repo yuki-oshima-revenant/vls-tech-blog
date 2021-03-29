@@ -68,31 +68,37 @@ export const getStaticPaths: GetStaticPaths = async () => {
             slug: author.slug || undefined,
         }
     }));
-    return { paths, fallback: false }
+    return { paths, fallback: 'blocking' }
 };
 
 export const getStaticProps: GetStaticProps<{ member: MemberInfo | null, articles: ArticleInfo[] | null }> = async ({ params }) => {
-    if (!params?.slug || Array.isArray(params.slug)) {
-        return {
-            props: {
-                member: null,
-                articles: null
-            }
+    const notFoundResponse = {
+        props: {
+            member: null,
+            articles: null
+        },
+        redirect: {
+            destination: '/404'
         }
+    }
+    if (!params?.slug || Array.isArray(params.slug)) {
+        return notFoundResponse;
     }
     const member = await getOneAuthor(params.slug);
     let articles = null;
     if (member) {
         const cmsArtticles = await getArticles({ 'fields.author.sys.contentType.sys.id': 'author', 'fields.author.fields.slug': member.slug });
         const feedArticles = await getFeedArticles([member]);
-        articles = getArticleList([...cmsArtticles, ...feedArticles])
-    }
-    return {
-        props: {
-            member,
-            articles
+        articles = getArticleList([...cmsArtticles, ...feedArticles]);
+        return {
+            props: {
+                member,
+                articles
+            },
+            revalidate: 60
         }
     }
+    return notFoundResponse;
 
 };
 
