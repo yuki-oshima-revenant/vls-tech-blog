@@ -7,23 +7,22 @@ import Layout from '@/lib/components/Layout';
 import router from 'next/router';
 import Link from 'next/link';
 import { getArticleList } from '@/lib/util';
-import ArticleCard from '@/lib/components/ArticleCard';
+import ArticleGridContainer from '@/lib/components/ArticleGridContainer';
+import SectionHeader from '@/lib/components/SectionHeader';
 
 const Index = ({ articles, members }: InferGetStaticPropsType<typeof getStaticProps>) => {
     return (
         <Layout>
-            <h1 className="text-center text-5xl font-bold my-8">VALUES TECH BLOG</h1>
-            <h2 className="text-center text-3xl font-bold my-8 border-0">New Articles</h2>
-            <div className="container grid grid-cols-4 gap-6">
-                {articles.map((article, i) => (
-                    <ArticleCard article={article} key={`article_${i}`} />
-                ))}
-            </div>
-            <div className="text-right text-lg font-medium mt-2">
+            <h1 className="text-center text-3xl md:text-5xl font-bold my-8">VALUES TECH BLOG</h1>
+            <SectionHeader>New Articles</SectionHeader>
+            <ArticleGridContainer
+                articles={articles}
+            />
+            <div className="text-right md:text-lg font-medium mt-2">
                 <Link href={'/articles'}>{'More Articles ->'}</Link>
             </div>
-            <h2 className="text-center text-3xl font-bold my-8 border-0">Members</h2>
-            <div className="container grid grid-cols-6 gap-6">
+            <SectionHeader>Members</SectionHeader>
+            <div className="container grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
                 {members.map((member, i) => (
                     <div
                         className="mb-2 text-center cursor-pointer"

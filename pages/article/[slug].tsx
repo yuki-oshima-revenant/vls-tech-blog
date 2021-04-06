@@ -28,14 +28,14 @@ const Article = ({ article }: InferGetStaticPropsType<typeof getStaticProps>) =>
 
     return (
         <Layout>
-            <div className="grid grid-cols-4 gap-4">
-                <div className="col-span-3 bg-white p-8 pt-12 rounded-lg">
+            <div className="lg:grid lg:grid-cols-4 lg:gap-4">
+                <div className="col-span-3 bg-white p-4 lg:p-8 pt-6 lg:pt-12 rounded-lg">
                     <h1>{article?.title}</h1>
-                    <div className="mb-2 text-md text-right">{`Last Modified: ${dayjs(article?.lastModifiedDate || undefined).format('YYYY.MM.DD')}`}</div>
+                    <div className="mb-2 text-sm lg:text-md text-right">{`Last Modified: ${dayjs(article?.lastModifiedDate || undefined).format('YYYY.MM.DD')}`}</div>
                     <div dangerouslySetInnerHTML={{ __html: article?.body || '' }} />
                 </div>
-                <div className="col-span-1">
-                    <div className="sticky top-8">
+                <div className="col-span-1 mt-4 lg:mt-0">
+                    <div className="lg:sticky lg:top-8">
                         <div className="bg-white p-6 rounded-lg mb-4">
                             <div className="flex mx-auto">
                                 <img alt="author" src={article?.author.avaterImage || ''} className="h-12 mr-4 rounded-full" />
@@ -49,7 +49,7 @@ const Article = ({ article }: InferGetStaticPropsType<typeof getStaticProps>) =>
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-white p-6 rounded-lg">
+                        <div className="bg-white p-6 rounded-lg hidden lg:block">
                             <div className="mb-4 font-bold text-lg">Table of Contents</div>
                             {headings?.map((heading, i) => (
                                 <Link key={`heading_${i}`}

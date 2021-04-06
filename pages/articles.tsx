@@ -3,11 +3,12 @@ import { getArticles, getAuthors } from '@/lib/contentful';
 import { ArticleInfo } from '@/lib/types';
 import { getFeedArticles } from '@/lib/feed';
 import { getArticleList } from '@/lib/util';
-import ArticleCard from '@/lib/components/ArticleCard';
 import Layout from '@/lib/components/Layout';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import Pagenation from '@/lib/components/Pagenation';
+import SectionHeader from '@/lib/components/SectionHeader';
+import ArticleGridContainer from '@/lib/components/ArticleGridContainer';
 
 const Articles = ({ articles }: InferGetStaticPropsType<typeof getStaticProps>) => {
     const router = useRouter();
@@ -26,12 +27,10 @@ const Articles = ({ articles }: InferGetStaticPropsType<typeof getStaticProps>) 
 
     return (
         <Layout>
-            <h2 className="text-center text-3xl font-bold my-8 border-0">Articles</h2>
-            <div className="container grid grid-cols-4 gap-6">
-                {displayArticles?.map((article, i) => (
-                    <ArticleCard article={article} key={`${i}`} />
-                ))}
-            </div>
+            <SectionHeader>Articles</SectionHeader>
+            <ArticleGridContainer
+                articles={displayArticles}
+            />
             <Pagenation
                 pageNumber={pageNumber}
                 contentTotalLength={articles?.length || 0}

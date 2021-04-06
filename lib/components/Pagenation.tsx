@@ -19,7 +19,7 @@ const Pagenation: React.FunctionComponent<{
 }) => {
         const router = useRouter();
         return (
-            <div className="flex mt-2 text-lg font-medium">
+            <div className="flex mt-2 md:text-lg font-medium">
                 <a
                     style={pageNumber > 1 ? {} : { visibility: 'hidden' }}
                     onClick={() => {

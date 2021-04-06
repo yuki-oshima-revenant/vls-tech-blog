@@ -3,11 +3,12 @@ import { ArticleInfo, MemberInfo } from '@/lib/types';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { getFeedArticles } from '@/lib/feed';
 import { getArticleList } from '@/lib/util';
-import ArticleCard from '@/lib/components/ArticleCard';
+import SectionHeader from '@/lib/components/SectionHeader';
 import Layout from '@/lib/components/Layout';
 import Pagenation from '@/lib/components/Pagenation';
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
+import ArticleGridContainer from '@/lib/components/ArticleGridContainer';
 
 const Member = ({ member, articles }: InferGetStaticPropsType<typeof getStaticProps>) => {
     const router = useRouter();
@@ -25,13 +26,13 @@ const Member = ({ member, articles }: InferGetStaticPropsType<typeof getStaticPr
 
     return (
         <Layout>
-            <div className="flex justify-center my-8">
-                <img className="h-32 mr-12 rounded-full" alt="avater" src={member?.avaterImage || ''} />
+            <div className="flex justify-center my-4 md:my-8">
+                <img className="h-16 md:h-32 mr-6 md:mr-12 rounded-full" alt="avater" src={member?.avaterImage || ''} />
                 <div className="flex">
-                    <div className="mb-4 mr-12 w-96">
-                        <div className="text-3xl font-bold mb-2">{member?.name}</div>
-                        <div className="text-lg mb-2">{member?.job}</div>
-                        <div className="text-lg">{member?.profile}</div>
+                    <div className="mb-4 max-w-sm">
+                        <div className="text-2xl md:text-3xl font-bold mb-2">{member?.name}</div>
+                        <div className="md:text-lg mb-2">{member?.job}</div>
+                        <div className="md:text-lg">{member?.profile}</div>
                     </div>
                     {/* <div>
                         <div className="text-xl font-bold">{articles?.length.toLocaleString()}</div>
@@ -39,16 +40,11 @@ const Member = ({ member, articles }: InferGetStaticPropsType<typeof getStaticPr
                     </div> */}
                 </div>
             </div>
-            <h2 className="text-center text-3xl font-bold my-8 border-0">Articles</h2>
-            <div className="container grid grid-cols-4 gap-6">
-                {displayArticles?.map((article, i) => (
-                    <ArticleCard
-                        article={article}
-                        key={`${i}`}
-                        hideAuthor
-                    />
-                ))}
-            </div>
+            <SectionHeader>Articles</SectionHeader>
+            <ArticleGridContainer
+                articles={displayArticles}
+                hideAuthor
+            />
             <Pagenation
                 pageNumber={pageNumber}
                 contentTotalLength={articles?.length || 0}
